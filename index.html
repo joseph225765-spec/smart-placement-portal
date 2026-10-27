@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Browse student placement opportunities.">
+  <title>Smart Placement Portal</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="site-header"><div class="container header-inner"><a class="brand" href="#home">Smart Placement Portal</a><a href="#opportunities">Explore jobs</a></div></header>
+  <main id="home">
+    <section class="hero container">
+      <div><p class="eyebrow">Your career starts here</p><h1>Find your next opportunity.</h1><p class="intro">Discover internships and entry-level roles in one simple place.</p><a class="button" href="#opportunities">Browse opportunities</a></div>
+      <div class="hero-art" aria-hidden="true"><span>✦</span><strong>Explore. Learn. Grow.</strong></div>
+    </section>
+    <section class="opportunities" id="opportunities">
+      <div class="container"><p class="eyebrow">Open possibilities</p><h2>Explore opportunities</h2><label for="job-search">Search by role, company, or location</label><input id="job-search" type="search" placeholder="Try: developer, design, remote..." autocomplete="off"><p id="result-count" aria-live="polite"></p><div id="job-list" class="job-grid"></div><p id="empty-state" hidden>No opportunities match your search. Try another word.</p><p class="note">These are sample opportunities for this first version of the portal.</p></div>
+    </section>
+  </main>
+  <footer class="container">Smart Placement Portal · Built for students</footer>
+</body>
+</html>
