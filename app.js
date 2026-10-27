@@ -1,24 +1,22 @@
-const jobs = [
-  { role: "Frontend Developer Intern", company: "Bright Labs", location: "Bengaluru", type: "Internship" },
-  { role: "Data Analyst Trainee", company: "Insight Works", location: "Hyderabad", type: "Entry level" },
-  { role: "UI/UX Design Intern", company: "Pixel Studio", location: "Remote", type: "Internship" },
-  { role: "Software Engineer Graduate", company: "Northstar Tech", location: "Pune", type: "Entry level" },
-  { role: "Marketing Intern", company: "Grow Together", location: "Mumbai", type: "Internship" },
-  { role: "Backend Developer Intern", company: "Cloudline", location: "Remote", type: "Internship" },
-];
+let jobs = [];
 
 const searchInput = document.querySelector("#job-search");
 const jobList = document.querySelector("#job-list");
 const resultCount = document.querySelector("#result-count");
 const emptyState = document.querySelector("#empty-state");
 
-function renderJobs() {
-  const query = searchInput.value.trim().toLowerCase();
-  const matches = jobs.filter((job) =>
-    [job.role, job.company, job.location, job.type].some((value) =>
-      value.toLowerCase().includes(query)
-    )
-  );
+async function renderJobs() {
+  const query = searchInput.value.trim();
+  try {
+    const response = await fetch(`/api/jobs?search=${encodeURIComponent(query)}`);
+    if (!response.ok) throw new Error("Could not load opportunities.");
+    jobs = await response.json();
+  } catch (error) {
+    resultCount.textContent = "Could not load jobs. Please make sure the server is running.";
+    jobList.replaceChildren();
+    return;
+  }
+  const matches = jobs;
 
   jobList.replaceChildren();
   for (const job of matches) {
@@ -46,22 +44,40 @@ renderJobs();
 
 const profileForm = document.querySelector("#profile-form");
 const profileMessage = document.querySelector("#profile-message");
-const savedProfile = JSON.parse(localStorage.getItem("studentProfile") || "null");
-
-if (savedProfile) {
-  profileForm.elements.name.value = savedProfile.name;
-  profileForm.elements.course.value = savedProfile.course;
-  profileForm.elements.skills.value = savedProfile.skills;
-  profileMessage.textContent = `Welcome back, ${savedProfile.name}! Your profile is saved on this computer.`;
+async function loadProfile() {
+  try {
+    const response = await fetch("/api/profile");
+    if (!response.ok) throw new Error("Could not load profile.");
+    const profile = await response.json();
+    if (!profile) return;
+    profileForm.elements.name.value = profile.name;
+    profileForm.elements.course.value = profile.course;
+    profileForm.elements.skills.value = profile.skills;
+    profileMessage.textContent = `Welcome back, ${profile.name}! Your profile is saved.`;
+  } catch (error) {
+    profileMessage.textContent = "Could not connect to the server. Please try again.";
+  }
 }
 
-profileForm.addEventListener("submit", (event) => {
+profileForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const profile = {
     name: profileForm.elements.name.value.trim(),
     course: profileForm.elements.course.value.trim(),
     skills: profileForm.elements.skills.value.trim(),
   };
-  localStorage.setItem("studentProfile", JSON.stringify(profile));
-  profileMessage.textContent = `Profile saved for ${profile.name}.`;
+  try {
+    const response = await fetch("/api/profile", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(profile),
+    });
+    const savedProfile = await response.json();
+    if (!response.ok) throw new Error(savedProfile.message || "Could not save profile.");
+    profileMessage.textContent = `Profile saved for ${savedProfile.name}.`;
+  } catch (error) {
+    profileMessage.textContent = "Could not save profile. Check the server and try again.";
+  }
 });
+
+loadProfile();
