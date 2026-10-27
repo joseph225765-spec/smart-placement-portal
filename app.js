@@ -42,3 +42,26 @@ function renderJobs() {
 
 searchInput.addEventListener("input", renderJobs);
 renderJobs();
+
+
+const profileForm = document.querySelector("#profile-form");
+const profileMessage = document.querySelector("#profile-message");
+const savedProfile = JSON.parse(localStorage.getItem("studentProfile") || "null");
+
+if (savedProfile) {
+  profileForm.elements.name.value = savedProfile.name;
+  profileForm.elements.course.value = savedProfile.course;
+  profileForm.elements.skills.value = savedProfile.skills;
+  profileMessage.textContent = `Welcome back, ${savedProfile.name}! Your profile is saved on this computer.`;
+}
+
+profileForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const profile = {
+    name: profileForm.elements.name.value.trim(),
+    course: profileForm.elements.course.value.trim(),
+    skills: profileForm.elements.skills.value.trim(),
+  };
+  localStorage.setItem("studentProfile", JSON.stringify(profile));
+  profileMessage.textContent = `Profile saved for ${profile.name}.`;
+});

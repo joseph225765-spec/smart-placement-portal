@@ -16,6 +16,13 @@ h1 { font-size: clamp(2.5rem, 5vw, 4.4rem); letter-spacing: -.04em; line-height:
 .hero-art { min-height: 280px; border-radius: 24px; padding: 40px; background: linear-gradient(145deg, #dcecff, #bad4fc); display: flex; flex-direction: column; justify-content: center; box-shadow: 0 20px 45px #184c8b18; }
 .hero-art span { font-size: 3rem; color: #1856a8; }
 .hero-art strong { font-size: 1.7rem; margin-top: 12px; }
+.profile-section { padding-block: 65px; background: #edf4ff; }
+.profile-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: start; }
+.profile-form { background: white; padding: 28px; border: 1px solid #dce5ef; border-radius: 16px; }
+.profile-form input { display: block; margin-bottom: 20px; }
+.profile-form button { border: 0; font: inherit; cursor: pointer; }
+.profile-form #profile-message { margin: 16px 0 0; color: #1856a8; }
+nav { display: flex; gap: 18px; }
 .opportunities { background: #fff; padding-block: 65px 85px; }
 h2 { font-size: 2.2rem; margin: 0 0 26px; }
 label { display: block; font-weight: 700; margin-bottom: 9px; }
@@ -29,4 +36,4 @@ input:focus-visible { outline: 3px solid #8db9f4; outline-offset: 2px; }
 .job-card p { color: #53657b; margin: 0 0 9px; }
 .note { margin-top: 30px; font-size: .9rem; }
 footer { padding-block: 28px; font-size: .9rem; }
-@media (max-width: 760px) { .hero { grid-template-columns: 1fr; padding-block: 55px; gap: 30px; } .hero-art { min-height: 200px; } .job-grid { grid-template-columns: 1fr; } }
+@media (max-width: 760px) { .profile-layout { grid-template-columns: 1fr; gap: 20px; } nav { gap: 10px; font-size: .9rem; } .hero { grid-template-columns: 1fr; padding-block: 55px; gap: 30px; } .hero-art { min-height: 200px; } .job-grid { grid-template-columns: 1fr; } }
